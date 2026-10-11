@@ -1,0 +1,21 @@
+{
+  "name": "pvp-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "koffi": "^2.16.3",
+    "ws": "^8.22.0"
+  },
+  "optionalDependencies": {
+    "evdevlib": "^2.0.0",
+    "uinput2": "^1.0.2"
+  }
+}
