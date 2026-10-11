@@ -2,6 +2,7 @@ import http from "node:http";
 import { WebSocketServer, WebSocket } from "ws";
 
 const HOST = process.env.HOST || "0.0.0.0";
+// const HOST = "192.168.0.1";
 const PORT = Number(process.env.PORT || 8080);
 
 import { ALLOWED_KEYS } from "./allowed_keys.js";

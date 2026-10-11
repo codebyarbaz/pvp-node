@@ -6,10 +6,19 @@ Each player uses the same keys. The other computer receives a separate player-2 
 
 Bind the arcade emulator like this:
 
-| | Up | Left | Down | Right | LP | MP | HP | LK | MK | HK |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| You press | W | A | S | D | F | G | T | R | V | B |
-| Other PC receives | U | H | J | K | Y | I | O | P | C | E |
+| You press | Other PC receives |
+| --- | --- |
+| 1 | 2 |
+| 3 | 4 |
+| W | I |
+| S | K |
+| A | J |
+| D | L |
+| T | 7 |
+| Y | 8 |
+| G | 4 |
+| H | 5 |
+| Space | Numpad Enter |
 
 `key_map.js` has the same pairs for Linux and Windows. A key that is not listed there is ignored.
 

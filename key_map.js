@@ -1,64 +1,61 @@
-// Each player uses the same local arcade layout.
-// Those keys are injected on the other computer as player 2,
-// so the two layouts never share a key.
-//
-// Local:  W A S D move, F G T punches, R V B kicks.
-// Remote: U H J K move, Y I O punches, P C E kicks.
-//
+// Player 1 keys are injected on the other computer as player 2.
 // A key with no entry is ignored.
-// Linux listener codes look like KEY_W. Windows listener codes are letters.
+// Linux listener codes look like KEY_W. Windows listener codes are 1, 3, SPACE, or a letter.
 export const KEY_MAP = {
   linux: {
-    KEY_W: "U",
-    KEY_A: "H",
-    KEY_S: "J",
-    KEY_D: "K",
-    KEY_F: "Y",
-    KEY_G: "I",
-    KEY_T: "O",
-    KEY_R: "P",
-    KEY_V: "C",
-    KEY_B: "E",
+    KEY_1: "2",
+    KEY_3: "4",
+    KEY_W: "I",
+    KEY_S: "K",
+    KEY_A: "J",
+    KEY_D: "L",
+    KEY_T: "7",
+    KEY_Y: "8",
+    KEY_G: "4",
+    KEY_H: "5",
+    KEY_SPACE: "KPENTER",
   },
   win32: {
-    W: "U",
-    A: "H",
-    S: "J",
-    D: "K",
-    F: "Y",
-    G: "I",
-    T: "O",
-    R: "P",
-    V: "C",
-    B: "E",
+    1: "2",
+    3: "4",
+    W: "I",
+    S: "K",
+    A: "J",
+    D: "L",
+    T: "7",
+    Y: "8",
+    G: "4",
+    H: "5",
+    SPACE: "KPENTER",
   },
 };
 
 // Linux values are evdev keycodes. Windows values are virtual-key codes.
+// KPENTER is numpad Enter. On Windows the scan code is extended, handled in input/windows.js.
 export const REMOTE_KEY_CODES = {
   linux: {
-    U: 22,
-    H: 35,
+    2: 3,
+    4: 5,
+    5: 6,
+    7: 8,
+    8: 9,
+    I: 23,
     J: 36,
     K: 37,
-    Y: 21,
-    I: 23,
-    O: 24,
-    P: 25,
-    C: 46,
-    E: 18,
+    L: 38,
+    KPENTER: 96,
   },
   win32: {
-    U: 0x55,
-    H: 0x48,
+    2: 0x32,
+    4: 0x34,
+    5: 0x35,
+    7: 0x37,
+    8: 0x38,
+    I: 0x49,
     J: 0x4a,
     K: 0x4b,
-    Y: 0x59,
-    I: 0x49,
-    O: 0x4f,
-    P: 0x50,
-    C: 0x43,
-    E: 0x45,
+    L: 0x4c,
+    KPENTER: 0x0d,
   },
 };
 

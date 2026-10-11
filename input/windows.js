@@ -12,9 +12,16 @@ const keybd_event = user32.func(
   "void __stdcall keybd_event(uint8 bVk, uint8 bScan, uint32 dwFlags, uintptr dwExtraInfo)",
 );
 
+const KEYEVENTF_EXTENDEDKEY = 0x0001;
 const KEYEVENTF_KEYUP = 0x0002;
 const KEYEVENTF_SCANCODE = 0x0008;
 const MAPVK_VK_TO_VSC = 0;
+const VK_SPACE = 0x20;
+
+// Numpad Enter uses the extended scan code, not the main Enter key.
+const EXTENDED_SCAN = {
+  KPENTER: 0x1c,
+};
 
 const localToRemote = KEY_MAP.win32;
 const remoteCodes = REMOTE_KEY_CODES.win32;
@@ -26,9 +33,10 @@ const remoteHeld = new Set();
 export { keyLabel, localToRemote };
 
 function virtualKey(name) {
-  const letter = keyLabel(name);
-  if (!/^[A-Z]$/i.test(letter)) return null;
-  return letter.toUpperCase().charCodeAt(0);
+  const label = keyLabel(name).toUpperCase();
+  if (label === "SPACE") return VK_SPACE;
+  if (/^[A-Z0-9]$/.test(label)) return label.charCodeAt(0);
+  return null;
 }
 
 function isPressed(vk) {
@@ -68,14 +76,16 @@ export function stopListening() {
   held.clear();
 }
 
-function emitScan(vk, action) {
-  const scan = MapVirtualKeyW(vk, MAPVK_VK_TO_VSC) & 0xff;
+function emitScan(remoteKey, vk, action) {
+  const extended = EXTENDED_SCAN[remoteKey];
+  const scan = extended ?? (MapVirtualKeyW(vk, MAPVK_VK_TO_VSC) & 0xff);
   if (!scan) {
-    throw new Error(`No Windows scan code for virtual key ${vk}`);
+    throw new Error(`No Windows scan code for ${remoteKey}`);
   }
 
-  const flags =
-    action === "down" ? KEYEVENTF_SCANCODE : KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP;
+  let flags = KEYEVENTF_SCANCODE;
+  if (extended) flags |= KEYEVENTF_EXTENDEDKEY;
+  if (action === "up") flags |= KEYEVENTF_KEYUP;
   keybd_event(0, scan, flags, 0);
 }
 
@@ -96,7 +106,7 @@ export function injectChanges(changes) {
       remoteHeld.delete(change.key);
     }
 
-    emitScan(vk, change.action);
+    emitScan(change.key, vk, change.action);
     applied.push(change);
   }
 
